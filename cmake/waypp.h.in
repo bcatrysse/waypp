@@ -32,6 +32,9 @@
 #ifndef ENABLE_IVI_SHELL_CLIENT
 #cmakedefine01 ENABLE_IVI_SHELL_CLIENT
 #endif
+#ifndef ENABLE_SIMPLE_SHELL_CLIENT
+#cmakedefine01 ENABLE_SIMPLE_SHELL_CLIENT
+#endif
 #ifndef ENABLE_DRM_LEASE_CLIENT
 #cmakedefine01 ENABLE_DRM_LEASE_CLIENT
 #endif
@@ -96,6 +99,9 @@
 #ifndef HAS_WAYLAND_PROTOCOL_PRIMARY_SELECTION_UNSTABLE_V1
 #cmakedefine01 HAS_WAYLAND_PROTOCOL_PRIMARY_SELECTION_UNSTABLE_V1
 #endif
+#ifndef HAS_WAYLAND_PROTOCOL_SIMPLE_SHELL
+#cmakedefine01 HAS_WAYLAND_PROTOCOL_SIMPLE_SHELL
+#endif
 
 #ifndef HAVE_MEMFD_CREATE
 #cmakedefine01 HAVE_MEMFD_CREATE
@@ -124,6 +130,10 @@
 #if ENABLE_IVI_SHELL_CLIENT
 #include "ivi-application-client-protocol.h"
 #include "ivi-wm-client-protocol.h"
+#endif
+
+#if ENABLE_SIMPLE_SHELL_CLIENT
+#include "simpleshell-client-protocol.h"
 #endif
 
 #if HAS_WAYLAND_PROTOCOL_DRM_LEASE_V1
