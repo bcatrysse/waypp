@@ -617,7 +617,7 @@ void Registrar::handle_interface_output(Registrar* r,
                        std::min(kWlOutputMinVersion, version)));
   if (!r->outputs_.count(wl_output)) {
     r->outputs_[wl_output] =
-        std::make_unique<Output>(wl_output, r->zxdg_output_manager_v1_);
+        std::make_unique<Output>(wl_output);
     LOG_DEBUG("{}: {}", interface, wl_output_get_version(wl_output));
   }
 }
@@ -694,6 +694,12 @@ void Registrar::handle_interface_xdg_output_unstable_v1(
   r->zxdg_output_manager_v1_ = static_cast<zxdg_output_manager_v1*>(
       wl_registry_bind(registry, name, &zxdg_output_manager_v1_interface,
                        std::min(kXdgOutputManagerMinVersion, version)));
+ // first test before introducing
+ //   if (r->zxdg_output_manager_v1_) {
+ //     r->xdg_outputs_[wl_output] =
+ //         std::make_unique<XdgOutput>(r->zxdg_output_manager_v1_, wl_output);
+ //   }
+
   LOG_DEBUG("{}: {}", interface,
             zxdg_output_manager_v1_get_version(r->zxdg_output_manager_v1_));
 }

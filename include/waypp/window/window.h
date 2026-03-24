@@ -20,13 +20,15 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <functional>
 
 #include <wayland-client.h>
 
 #include "egl.h"
 #include "feedback.h"
 #include "waypp/window/buffer.h"
-#include "waypp/window_manager/xdg_window_manager.h"
+#include "waypp/window_manager/window_manager.h"
+
 
 class Buffer;
 
@@ -192,11 +194,13 @@ class Window {
   wl_output* wl_output_{};
   RuntimeMode runtime_mode_;
 
+// #if HAS_WAYLAND_PROTOCOL_PRESENTATION_TIME
   struct {
     struct wp_presentation* wp_presentation;
     clockid_t clock_id;
     std::list<std::unique_ptr<Feedback>> feedback_list;
   } presentation_{};
+// #endif
 
   std::string name_;
   wl_surface* wl_surface_;

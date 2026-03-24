@@ -17,8 +17,8 @@
 #pragma once
 
 #include <waypp/waypp.h>
-
-#include "output.h"
+#include <wayland-client.h>
+#include <string>
 
 class XdgOutput {
  public:

@@ -23,18 +23,17 @@
 
 #include <wayland-client.h>
 
-#include "xdg_output.h"
-
-class XdgOutput;
 
 class Output {
  public:
-  explicit Output(wl_output* output,
-                  zxdg_output_manager_v1* zxdg_output_manager_v1);
+  explicit Output(wl_output* output);
 
   ~Output();
 
   [[nodiscard]] int32_t get_scale_factor() const { return output_.factor; }
+
+  [[nodiscard]] int get_pos_x() const { return output_.geometry.x; }
+  [[nodiscard]] int get_pos_y() const { return output_.geometry.y; }
 
   [[nodiscard]] wl_output_transform get_transform() const {
     return output_.geometry.transform;
@@ -46,8 +45,8 @@ class Output {
 
   static std::string transform_to_string(wl_output_transform transform);
 
-  [[nodiscard]] const XdgOutput* get_xdg_output() const {
-    return xdg_output_.get();
+  [[nodiscard]] const wl_output* get_wl_output() const {
+    return wl_output_;;
   }
 
   // Disallow copy and assign.
@@ -57,8 +56,6 @@ class Output {
 
  private:
   wl_output* wl_output_;
-  zxdg_output_manager_v1* zxdg_output_manager_v1_;
-  std::unique_ptr<XdgOutput> xdg_output_;
 
   struct {
     struct {

@@ -28,9 +28,8 @@
  * access to the output's properties such as geometry and mode. It also handles
  * the events emitted by the output.
  */
-Output::Output(wl_output* wl_output,
-               zxdg_output_manager_v1* zxdg_output_manager_v1)
-    : wl_output_(wl_output), zxdg_output_manager_v1_(zxdg_output_manager_v1) {
+Output::Output(wl_output* wl_output)
+    : wl_output_(wl_output) {
   DLOG_TRACE("++Output::Output()");
   wl_output_add_listener(wl_output_, &listener_, this);
   DLOG_TRACE("--Output::Output()");
@@ -40,9 +39,6 @@ Output::~Output() {
   if (wl_output_) {
     DLOG_TRACE("[Output] wl_output_destroy(wl_output_)");
     wl_output_destroy(wl_output_);
-  }
-  if (xdg_output_) {
-    xdg_output_.reset();
   }
 }
 
@@ -71,10 +67,6 @@ void Output::handle_geometry(void* data,
       .model = model,
       .transform = static_cast<wl_output_transform>(transform),
   };
-  if (obj->zxdg_output_manager_v1_ && !obj->xdg_output_) {
-    obj->xdg_output_ = std::make_unique<XdgOutput>(obj->zxdg_output_manager_v1_,
-                                                   obj->wl_output_);
-  }
   DLOG_TRACE("--Output::handle_geometry()");
 }
 

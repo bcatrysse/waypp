@@ -143,16 +143,23 @@ int WindowManager::display_dispatch() const {
 
 wl_output* WindowManager::get_primary_output() const {
   auto& outputs = get_outputs();
-  // making withouth xdg_output
-  // assuming primary output will have x and y as 0 
-  //
-  for (const auto& [wl_out, output] : outputs) {
-    if (output->get_pos_x() == 0 && output->get_pos_y() == 0) {
-      LOG_DEBUG("get_primary_output: (core) Origin: {}", fmt::ptr(wl_out));
-      return wl_out;
+#if HAS_WAYLAND_PROTOCOL_XDG_OUTPUT_UNSTABLE_V1
+  if (get_xdg_output_manager()) {
+    for (const auto& [fst, snd] : outputs) {
+      if (snd->get_xdg_output()->is_origin()) {
+        LOG_DEBUG("get_primary_output: (xdg_output) Origin: {}", fmt::ptr(fst));
+        return fst;
+      }
+    }
+  } else {
+    for (const auto& [fst, snd] : outputs) {
+      LOG_DEBUG("get_primary_output: (first) Origin: {}", fmt::ptr(fst));
+      return fst;
     }
   }
-  // fallback: returning the first output found (same behavior as in previous xdg_output code)
+ #endif
+ 
+  // Last fallback: return the first output found (same behavior as before)
   for (const auto& [wl_out, output] : outputs) {
     LOG_DEBUG("get_primary_output: (first) Origin: {}", fmt::ptr(wl_out));
     return wl_out;
