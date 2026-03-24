@@ -29,7 +29,6 @@
 #include "waypp/window/buffer.h"
 #include "waypp/window_manager/window_manager.h"
 
-
 class Buffer;
 
 class Egl;
