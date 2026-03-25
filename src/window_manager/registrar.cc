@@ -49,6 +49,10 @@ Registrar::Registrar(wl_display* wl_display,
       ,
       {agl_shell_interface.name, handle_interface_agl_shell}
 #endif
+#if ENABLE_SIMPLE_SHELL_CLIENT
+      ,
+      {wl_simple_shell_interface.name, handle_interface_simple_shell}
+#endif
 #if HAS_WAYLAND_PROTOCOL_XDG_DECORATION_UNSTABLE_V1
       ,
       {zxdg_decoration_manager_v1_interface.name,
@@ -150,6 +154,13 @@ Registrar::~Registrar() {
   if (agl_shell_) {
     LOG_TRACE("[Registrar] agl_shell_destroy(agl_shell_)");
     agl_shell_destroy(agl_shell_);
+  }
+#endif
+
+#if ENABLE_SIMPLE_SHELL_CLIENT
+  if (simple_shell_) {
+    LOG_TRACE("[Registrar] wl_simple_shell_destroy(simple_shell_)");
+    wl_simple_shell_destroy(simple_shell_);
   }
 #endif
 
@@ -648,6 +659,21 @@ void Registrar::handle_interface_agl_shell(Registrar* r,
       wl_registry_bind(registry, name, &agl_shell_interface,
                        std::min(kAglShellMinVersion, version)));
   LOG_DEBUG("{}: {}", interface, agl_shell_get_version(r->agl_shell_));
+}
+
+#endif
+
+#if ENABLE_SIMPLE_SHELL_CLIENT
+
+void Registrar::handle_interface_simple_shell(Registrar* r,
+                                              wl_registry* registry,
+                                              const uint32_t name,
+                                              const char* interface,
+                                              const uint32_t version) {
+  r->simple_shell_ = static_cast<wl_simple_shell*>(
+      wl_registry_bind(registry, name, &wl_simple_shell_interface,
+                       std::min(kSimpleShellMinVersion, version)));
+  LOG_DEBUG("{}: {}", interface, wl_simple_shell_get_version(r->simple_shell_));
 }
 
 #endif

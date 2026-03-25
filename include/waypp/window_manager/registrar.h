@@ -102,6 +102,10 @@ class Registrar {
   [[nodiscard]] agl_shell* get_agl_shell() const { return agl_shell_; }
 #endif
 
+#if ENABLE_SIMPLE_SHELL_CLIENT
+  [[nodiscard]] wl_simple_shell* get_simple_shell() const { return simple_shell_; }
+#endif
+
 #if HAS_WAYLAND_PROTOCOL_PRESENTATION_TIME
 
   [[nodiscard]] struct wp_presentation* get_presentation_time_wp_presentation()
@@ -247,6 +251,10 @@ class Registrar {
   agl_shell* agl_shell_{};
 #endif
 
+#if ENABLE_SIMPLE_SHELL_CLIENT
+  wl_simple_shell* simple_shell_{};
+#endif
+
 #if HAS_WAYLAND_PROTOCOL_PRESENTATION_TIME
   struct {
     struct wp_presentation* wp_presentation;
@@ -375,6 +383,16 @@ class Registrar {
                                          uint32_t name,
                                          const char* interface,
                                          uint32_t version);
+
+#endif
+
+#if ENABLE_SIMPLE_SHELL_CLIENT
+
+  static void handle_interface_simple_shell(Registrar* r,
+                                            wl_registry* registry,
+                                            uint32_t name,
+                                            const char* interface,
+                                            uint32_t version);
 
 #endif
 

@@ -31,6 +31,7 @@ static constexpr uint32_t kXdgOutputManagerMinVersion = UINT32_C(1);
 static constexpr uint32_t kXdgDecorationManagerMinVersion = UINT32_C(1);
 
 static constexpr uint32_t kAglShellMinVersion = UINT32_C(11);
+static constexpr uint32_t kSimpleShellMinVersion = UINT32_C(1);
 
 static constexpr uint32_t kIviWmMinVersion = UINT32_C(1);
 static constexpr uint32_t kDrmLeaseDeviceV1MinVersion = UINT32_C(1);
