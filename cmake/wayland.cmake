@@ -102,7 +102,7 @@ if (ENABLE_IVI_SHELL_CLIENT)
 endif ()
 
 if (ENABLE_SIMPLE_SHELL_CLIENT)
-    add_protocol(${PROJECT_SOURCE_DIR}/stable/simple-shell/simpleshell.xml)
+    add_protocol(${PROJECT_SOURCE_DIR}/third_party/rdk/protocol/simpleshell.xml)
 endif ()
 
 add_protocol(${PROJECT_SOURCE_DIR}/third_party/weston/protocol/weston-output-capture.xml)
